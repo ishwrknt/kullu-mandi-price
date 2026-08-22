@@ -42,3 +42,28 @@ class APIClient:
                         time.sleep(1)
             else:
                 raise APIError(f"API failed for scope {state}/{district or '*'}: {last_error}")
+
+    def records_for_commodity(self, state, district, commodity, arrival_date):
+        key = (state, district, commodity, arrival_date)
+        if key in self.cache:
+            return self.cache[key]
+        params = {"api-key": self.api_key, "format": "json", "limit": 50,
+                  "filters[state]": state, "filters[commodity]": commodity,
+                  "filters[arrival_date]": arrival_date}
+        if district:
+            params["filters[district]"] = district
+        last_error = None
+        for attempt in range(self.retries + 1):
+            try:
+                print(f"REQUEST {state}/{district or '*'} commodity={commodity}", flush=True)
+                response = self.session.get(API_URL, params=params, timeout=self.timeout)
+                response.raise_for_status()
+                records = response.json().get("records", [])
+                self.cache[key] = records
+                return records
+            except (requests.RequestException, ValueError) as exc:
+                last_error = exc
+                print(f"  attempt {attempt + 1} failed: {type(exc).__name__}", flush=True)
+                if attempt < self.retries:
+                    time.sleep(1)
+        raise APIError(f"API failed for {state}/{district or '*'} {commodity}: {last_error}")
