@@ -1,23 +1,48 @@
 from manim import *
 
-class MandiReel(Scene):
+config.frame_width = 1080
+config.frame_height = 1920
+
+class MandiReelPortrait(Scene):
     def construct(self):
         # Title
         title = Text("Kullu Mandi Prices", font="UI Display", color=BLUE)
-        title.to_edge(UP)
+        title.to_edge(UP, buff=0.5)
         self.play(Write(title))
 
-        # Price data
-        data = [('Apple', '₹60.0'), ('Pear', '-'), ('Plum', '-'), ('Peach', '-'), ('Tomato', '-'), ('Cabbage', '-'), ('Cauliflower', '-'), ('Potato', '₹16.0'), ('Onion', '₹43.0'), ('Carrot', '₹35.0')]
+        # Price data (commodity + price) – you can replace these with your actual data
+        data = [
+            ("Apple", "-"),
+            ("Pear", "-"),
+            ("Plum", "-"),
+            ("Peach", "-"),
+            ("Tomato", "-"),
+            ("Cabbage", "-"),
+            ("Cauliflower", "-"),
+            ("Potato", "-"),
+            ("Onion", "-"),
+            ("Carrot", "-"),
+        ]
 
-        # Create a VGroup of Text objects, one per commodity
-        texts = VGroup(*[Text(f"{name}: {price}", font="UI Mono") for name, price in data])
-        texts.arrange(DOWN, aligned_edge=LEFT)
-        texts.to_edge(DOWN)
+        # Create Text objects for each line
+        texts = VGroup(*[
+            Text(f"{name}: {price}", font="UI Mono", color=WHITE)
+            for name, price in data
+        ])
+        # Stack them vertically with some spacing
+        texts.arrange(DOWN, aligned_edge=LEFT, buff=0.15)
+        # Center the group horizontally and position below title
+        texts.to_edge(DOWN, buff=1.0)
+        # Optional: add a semi-transparent background rectangle
+        bg = Rectangle(
+            width=config.frame_width - 1,
+            height=config.frame_height - 2.5,
+            fill_color=BLACK,
+            fill_opacity=0.4,
+            stroke_color=WHITE,
+        )
+        bg.move_to(ORIGIN)
 
-        # Animate each text appearing
-        for txt in texts:
-            self.play(Write(txt))
-
-        # Wait at the end
-        self.wait(2)
+        self.add(bg)
+        self.play(Write(texts))
+        self.wait(3)
