@@ -34,10 +34,25 @@ def validate(prices, target_date):
                 if record[source] is not None and record[converted] != record[source] / 100: raise ValueError(f"conversion mismatch for {display_market}")
 
 
+
+# parse optional --date argument
+ARG_DATE = None
+if len(sys.argv) > 1 and sys.argv[1] == "--date" and len(sys.argv) > 2:
+    ARG_DATE = sys.argv[2]
+    try:
+        datetime.strptime(ARG_DATE, "%Y-%m-%d")
+    except Exception:
+        print("❌ Invalid date format, use YYYY‑MM‑DD"); raise SystemExit(1)
 def main():
     api_key = os.environ.get("MANDI_API_KEY")
     if not api_key: raise SystemExit("MANDI_API_KEY is required")
-    now = datetime.now(TZ); target_date = now.strftime("%d/%m/%Y")
+    # use selected date if provided
+if ARG_DATE:
+    dt_obj = datetime.strptime(ARG_DATE, "%Y-%m-%d")
+    target_date = dt_obj.strftime("%d/%m/%Y")
+else:
+    now = datetime.now(TZ)
+    target_date = now.strftime("%d/%m/%Y")
     print(f"KULLU MANDI PRICE FETCHER | {target_date} Asia/Kolkata")
     try:
         prices, verification, missing_markets, unmatched_commodities = fetch_prices(APIClient(api_key), target_date)
@@ -57,6 +72,24 @@ def main():
     if missing_markets: print("\nMarkets with no records returned: " + ", ".join(missing_markets))
     if unmatched_commodities: print("Unmatched API commodities: " + ", ".join(unmatched_commodities))
     print(f"\nSaved {len(verification)} normalized records to {OUTPUT}")
+# ----- persist history -----
+HISTORY_PATH = ROOT / "data" / "price_history.json"
+history_entry = {
+    "date": now.strftime("%Y-%m-%d"),
+    "display_date": target_date,
+    "verification_count": len(verification),
+    "unmatched_markets": len(missing_markets),
+    "unmatched_commodities": len(unmatched_commodities)
+}
+if HISTORY_PATH.exists():
+    history = json.loads(HISTORY_PATH.read_text())
+else:
+    history = []
+history.append(history_entry)
+if len(history) > 30:
+    history = history[-30:]
+HISTORY_PATH.write_text(json.dumps(history, indent=2, ensure_ascii=False) + "
+")
 
 
 if __name__ == "__main__": main()

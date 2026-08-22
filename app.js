@@ -10,3 +10,44 @@ function render(){if(!data)return;report=buildReport();$("output").value=report;
 async function load(){$("updateBtn").disabled=true;$("status").textContent="⏳ Updating…";try{const r=await fetch(`${DATA_URL}?t=${Date.now()}`);if(!r.ok)throw Error();data=await r.json();render()}catch{$("status").textContent="🔴 No price data published yet";$("lastUpdated").textContent="⚠️ Government data update failed. Run the update workflow and try again."}finally{$("updateBtn").disabled=false}}
 async function copy(){try{if(navigator.clipboard)await navigator.clipboard.writeText(report);else{$("output").select();document.execCommand("copy")}$("copyBtn").textContent="✅ Copied!";setTimeout(()=>$("copyBtn").textContent="📋 Copy WhatsApp Report",2000)}catch{$("status").textContent="⚠️ Copy failed — select the report and copy it manually."}}
 $("updateBtn").addEventListener("click",load);$("copyBtn").addEventListener("click",copy);load();
+
+
+  // ----- Buttons -----
+  const pdfBtn = document.createElement('button');
+  pdfBtn.id = 'pdfBtn';
+  pdfBtn.className = 'primary';
+  pdfBtn.style.marginTop = '10px';
+  pdfBtn.textContent = '📄 Download PDF Report';
+  document.body.appendChild(pdfBtn);
+
+  const imgBtn = document.createElement('button');
+  imgBtn.id = 'imgBtn';
+  imgBtn.className = 'copy';
+  imgBtn.style.marginTop = '5px';
+  imgBtn.textContent = '📸 Screenshot';
+  document.body.appendChild(imgBtn);
+
+  // PDF handler
+  pdfBtn.addEventListener('click', () => {
+    const win = window.open('', '_blank');
+    win.document.write('<html><head><style>body{font-family:system-ui,sans-serif;margin:20px;}h1{color:#176b3a;}</style></head><body><h1>Kullu Mandi Prices – Top Ten Markets</h1>'+$('output').value+'<div class="note">Generated '+new Date().toLocaleString()+' IST</div></body></html>');
+    win.document.close();
+    win.print();
+  });
+
+  // Screenshot handler
+  imgBtn.addEventListener('click', () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = $('output').scrollWidth;
+    canvas.height = $('output').scrollHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.font = '13px ui-monospace,SFMono-Regular,Menlo,monospace';
+    ctx.fillStyle = '#17251c';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#c6c8c8';
+    ctx.fillText($('output').value, 0, 20);
+    const link = document.createElement('a');
+    link.download = 'kullu-mandi-'+new Date().toISOString().slice(0,10)+'.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
