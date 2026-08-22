@@ -7,7 +7,7 @@ MAIN_MARKETS = [
 
 COMPARISON_MARKETS = [
     {"display": "Bandrol", "state": "Himachal Pradesh", "district": "Kullu", "aliases": ["Bandrol"]},
-    {"display": "Takoli", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Takoli"]},
+    {"display": "Takoli", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["SMY Takoli", "Takoli"]},
     {"display": "Banjar", "state": "Himachal Pradesh", "district": "Kullu", "aliases": ["Banjar"]},
     {"display": "Sundernagar", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Sundernagar"]},
     {"display": "Ner Chowk", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Ner Chowk"]},
