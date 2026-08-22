@@ -1,2 +1,2 @@
-const CACHE="kullu-mandi-v1";const ASSETS=["./","index.html","style_new.css","app_new.js","manifest.json"];
+const CACHE="kullu-mandi-v2";const ASSETS=["./","index.html","style.css","app.js","manifest.json"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));self.addEventListener("fetch",e=>{if(e.request.url.includes("data/prices.json")){e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request)));return}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})
