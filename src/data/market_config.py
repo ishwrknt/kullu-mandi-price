@@ -11,7 +11,7 @@ COMPARISON_MARKETS = [
     {"display": "Banjar", "state": "Himachal Pradesh", "district": "Kullu", "aliases": ["Banjar"]},
     {"display": "Sundernagar", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Sundernagar"]},
     {"display": "Ner Chowk", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Ner Chowk"]},
-    {"display": "Delhi", "state": "Delhi", "district": None, "aliases": ["Delhi"]},
+    {"display": "Delhi", "state": "Delhi", "district": "Delhi", "aliases": ["Delhi"]},
     {"display": "Nashik", "state": "Maharashtra", "district": "Nashik", "aliases": ["Nashik"]},
     {"display": "Jammu", "state": "Jammu and Kashmir", "district": "Jammu", "aliases": ["Jammu"]},
     {"display": "Jaipur", "state": "Rajasthan", "district": "Jaipur", "aliases": ["Jaipur"]},
