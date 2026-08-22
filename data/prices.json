@@ -13,7 +13,10 @@
     {"key":"peach","name":"Peach","emoji":"🍑"},
     {"key":"tomato","name":"Tomato","emoji":"🍅"},
     {"key":"cabbage","name":"Cabbage","emoji":"🥬"},
-    {"key":"cauliflower","name":"Cauliflower","emoji":"🥦"}
+    {"key":"cauliflower","name":"Cauliflower","emoji":"🥦"},
+    {"key":"potato","name":"Potato","emoji":"🥔"},
+    {"key":"onion","name":"Onion","emoji":"🧅"},
+    {"key":"carrot","name":"Carrot","emoji":"🥕"}
   ],
   "main_markets": [
     {"display":"SMY Bhuntar","short":"SMY Bh."},
@@ -46,12 +49,18 @@
       "PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Cabbage","api_commodity":"Cabbage","date":"22/08/2026","min_price_quintal":1800,"max_price_quintal":2000,"modal_price_quintal":1900,"min_price_kg":18,"max_price_kg":20,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
       "SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null
     },
-    "cauliflower": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null}
+    "cauliflower": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "potato": {"SMY Bhuntar":null,"PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Potato","api_commodity":"Potato","date":"22/08/2026","min_price_quintal":800,"max_price_quintal":2200,"modal_price_quintal":1600,"min_price_kg":8,"max_price_kg":22,"modal_price_kg":16,"source":"AGMARKNET / data.gov.in"},"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "onion": {"SMY Bhuntar":null,"PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Onion","api_commodity":"Onion","date":"22/08/2026","min_price_quintal":4200,"max_price_quintal":4500,"modal_price_quintal":4300,"min_price_kg":42,"max_price_kg":45,"modal_price_kg":43,"source":"AGMARKNET / data.gov.in"},"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "carrot": {"SMY Bhuntar":null,"PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Carrot","api_commodity":"Carrot","date":"22/08/2026","min_price_quintal":3000,"max_price_quintal":4000,"modal_price_quintal":3500,"min_price_kg":30,"max_price_kg":40,"modal_price_kg":35,"source":"AGMARKNET / data.gov.in"},"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null}
   },
   "verification": [
     {"market":"SMY Khegsu","api_market":"SMY Khegsu","commodity":"Apple","api_commodity":"Apple","date":"22/08/2026","modal_price_quintal":6000,"modal_price_kg":60,"source":"AGMARKNET / data.gov.in"},
     {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Tomato","api_commodity":"Tomato","date":"22/08/2026","modal_price_quintal":1900,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
-    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Cabbage","api_commodity":"Cabbage","date":"22/08/2026","modal_price_quintal":1900,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"}
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Cabbage","api_commodity":"Cabbage","date":"22/08/2026","modal_price_quintal":1900,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Potato","api_commodity":"Potato","date":"22/08/2026","modal_price_quintal":1600,"modal_price_kg":16,"source":"AGMARKNET / data.gov.in"},
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Onion","api_commodity":"Onion","date":"22/08/2026","modal_price_quintal":4300,"modal_price_kg":43,"source":"AGMARKNET / data.gov.in"},
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Carrot","api_commodity":"Carrot","date":"22/08/2026","modal_price_quintal":3500,"modal_price_kg":35,"source":"AGMARKNET / data.gov.in"}
   ],
   "unmatched_api_markets": [],
   "unmatched_api_commodities": []

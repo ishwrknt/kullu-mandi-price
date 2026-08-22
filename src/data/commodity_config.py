@@ -6,4 +6,7 @@ COMMODITIES = [
     {"key": "tomato", "name": "Tomato", "emoji": "🍅", "aliases": ["Tomato"]},
     {"key": "cabbage", "name": "Cabbage", "emoji": "🥬", "aliases": ["Cabbage"]},
     {"key": "cauliflower", "name": "Cauliflower", "emoji": "🥦", "aliases": ["Cauliflower"]},
+    {"key": "potato", "name": "Potato", "emoji": "🥔", "aliases": ["Potato"]},
+    {"key": "onion", "name": "Onion", "emoji": "🧅", "aliases": ["Onion"]},
+    {"key": "carrot", "name": "Carrot", "emoji": "🥕", "aliases": ["Carrot"]},
 ]
