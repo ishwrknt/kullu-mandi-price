@@ -7,10 +7,10 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src.data.api_client_fixed import APIClient, APIError
+from src.data.api_client_scoped import APIClient, APIError
 from src.data.commodity_config import COMMODITIES
 from src.data.market_config import ALL_MARKETS, MAIN_MARKETS, COMPARISON_MARKETS
-from src.data.price_service import fetch_prices
+from src.data.price_service_scoped import fetch_prices
 
 OUTPUT = ROOT / "data" / "prices.json"
 TZ = ZoneInfo("Asia/Kolkata")
