@@ -13,8 +13,9 @@ def market_matches(actual, market):
 def fetch_prices(client, target_date):
     prices = {item["key"]: {market["display"]: None for market in ALL_MARKETS} for item in COMMODITIES}
     verification, unmatched_markets, unmatched_commodities = [], set(), set()
-    scopes = {(market["state"], market.get("district")) for market in ALL_MARKETS}
     required_scopes = {(market["state"], market.get("district")) for market in MAIN_MARKETS}
+    all_scopes = {(market["state"], market.get("district")) for market in ALL_MARKETS}
+    scopes = list(required_scopes) + sorted(all_scopes - required_scopes)
     for state, district in scopes:
         try:
             records = client.records_for_scope(state, district)
