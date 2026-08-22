@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-22",
+  "display_date": "22/08/2026",
+  "updated_at": "2026-08-22T17:01:01+05:30",
+  "source": "AGMARKNET / data.gov.in",
+  "price_unit": "₹/kg",
+  "conversion": "₹/quintal ÷ 100",
+  "commodities": [
+    {"key":"apple","name":"Apple","emoji":"🍎"},
+    {"key":"pear","name":"Pear","emoji":"🍐"},
+    {"key":"plum","name":"Plum","emoji":"🟣"},
+    {"key":"peach","name":"Peach","emoji":"🍑"},
+    {"key":"tomato","name":"Tomato","emoji":"🍅"},
+    {"key":"cabbage","name":"Cabbage","emoji":"🥬"},
+    {"key":"cauliflower","name":"Cauliflower","emoji":"🥦"}
+  ],
+  "main_markets": [
+    {"display":"SMY Bhuntar","short":"SMY Bh."},
+    {"display":"PMY Kullu","short":"PMY Ku."},
+    {"display":"SMY Khegsu","short":"SMY Kh."},
+    {"display":"Kullu","short":"Kullu"}
+  ],
+  "comparison_markets": [
+    {"display":"Bandrol"},{"display":"Takoli"},{"display":"Banjar"},
+    {"display":"Sundernagar"},{"display":"Ner Chowk"},{"display":"Delhi"},
+    {"display":"Nashik"},{"display":"Jammu"},{"display":"Jaipur"}
+  ],
+  "prices": {
+    "apple": {
+      "SMY Bhuntar": null,
+      "PMY Kullu": null,
+      "SMY Khegsu": {"market":"SMY Khegsu","api_market":"SMY Khegsu","commodity":"Apple","api_commodity":"Apple","date":"22/08/2026","min_price_quintal":2000,"max_price_quintal":13000,"modal_price_quintal":6000,"min_price_kg":20,"max_price_kg":130,"modal_price_kg":60,"source":"AGMARKNET / data.gov.in"},
+      "Kullu": null,"Bandrol": null,"Takoli": null,"Banjar": null,"Sundernagar": null,"Ner Chowk": null,"Delhi": null,"Nashik": null,"Jammu": null,"Jaipur": null
+    },
+    "pear": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "plum": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "peach": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null},
+    "tomato": {
+      "SMY Bhuntar":null,
+      "PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Tomato","api_commodity":"Tomato","date":"22/08/2026","min_price_quintal":1800,"max_price_quintal":2000,"modal_price_quintal":1900,"min_price_kg":18,"max_price_kg":20,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
+      "SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null
+    },
+    "cabbage": {
+      "SMY Bhuntar":null,
+      "PMY Kullu":{"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Cabbage","api_commodity":"Cabbage","date":"22/08/2026","min_price_quintal":1800,"max_price_quintal":2000,"modal_price_quintal":1900,"min_price_kg":18,"max_price_kg":20,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
+      "SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null
+    },
+    "cauliflower": {"SMY Bhuntar":null,"PMY Kullu":null,"SMY Khegsu":null,"Kullu":null,"Bandrol":null,"Takoli":null,"Banjar":null,"Sundernagar":null,"Ner Chowk":null,"Delhi":null,"Nashik":null,"Jammu":null,"Jaipur":null}
+  },
+  "verification": [
+    {"market":"SMY Khegsu","api_market":"SMY Khegsu","commodity":"Apple","api_commodity":"Apple","date":"22/08/2026","modal_price_quintal":6000,"modal_price_kg":60,"source":"AGMARKNET / data.gov.in"},
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Tomato","api_commodity":"Tomato","date":"22/08/2026","modal_price_quintal":1900,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"},
+    {"market":"PMY Kullu","api_market":"PMY Kullu","commodity":"Cabbage","api_commodity":"Cabbage","date":"22/08/2026","modal_price_quintal":1900,"modal_price_kg":19,"source":"AGMARKNET / data.gov.in"}
+  ],
+  "unmatched_api_markets": [],
+  "unmatched_api_commodities": []
+}
