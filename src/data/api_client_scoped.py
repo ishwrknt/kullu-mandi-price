@@ -14,8 +14,9 @@ class APIClient:
         if key in self.cache:
             return self.cache[key]
         records, offset = [], 0
+        page_size = 50
         while True:
-            params = {"api-key": self.api_key, "format": "json", "limit": 100, "offset": offset,
+            params = {"api-key": self.api_key, "format": "json", "limit": page_size, "offset": offset,
                       "filters[state]": state}
             if district:
                 params["filters[district]"] = district
@@ -29,7 +30,7 @@ class APIClient:
                     batch = payload.get("records", [])
                     records.extend(batch)
                     total = int(payload.get("total", len(records)))
-                    if not batch or len(records) >= total or len(batch) < 100:
+                    if not batch or len(records) >= total or len(batch) < page_size:
                         self.cache[key] = records
                         return records
                     offset += len(batch)
@@ -41,4 +42,3 @@ class APIClient:
                         time.sleep(1)
             else:
                 raise APIError(f"API failed for scope {state}/{district or '*'}: {last_error}")
-
