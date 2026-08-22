@@ -13,6 +13,7 @@ COMPARISON_MARKETS = [
     {"display": "Ner Chowk", "state": "Himachal Pradesh", "district": "Mandi", "aliases": ["Ner Chowk"]},
     {"display": "Delhi", "state": "Delhi", "district": "Delhi", "aliases": ["Delhi"]},
     {"display": "Nashik", "state": "Maharashtra", "district": "Nashik", "aliases": ["Nashik"]},
+    {"display": "Bengaluru", "state": "Karnataka", "district": "Bengaluru Urban", "aliases": ["Bengaluru", "Bangalore"]},
     {"display": "Jammu", "state": "Jammu and Kashmir", "district": "Jammu", "aliases": ["Jammu"]},
     {"display": "Jaipur", "state": "Rajasthan", "district": "Jaipur", "aliases": ["Jaipur"]},
 ]

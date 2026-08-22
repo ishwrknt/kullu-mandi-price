@@ -27,7 +27,7 @@
   "comparison_markets": [
     {"display":"Bandrol"},{"display":"Takoli"},{"display":"Banjar"},
     {"display":"Sundernagar"},{"display":"Ner Chowk"},{"display":"Delhi"},
-    {"display":"Nashik"},{"display":"Jammu"},{"display":"Jaipur"}
+    {"display":"Nashik"},{"display":"Bengaluru"},{"display":"Jammu"},{"display":"Jaipur"}
   ],
   "prices": {
     "apple": {
