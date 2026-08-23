@@ -1,53 +1,22 @@
-const DATA_URL = "data/prices.json";
-const ITEMS = [["apple","Apple","🍎","Apple"],["pear","Pear","🍐","Pear"],["plum","Plum","🟣","Plum"],["peach","Peach","🍑","Peach"],["tomato","Tomato","🍅","Tomato"],["cabbage","Cabbage","🥬","Cabbage"],["cauliflower","Cauliflower","🥦","Cauliflo."],["potato","Potato","🥔","Potato"],["onion","Onion","🧅","Onion"],["carrot","Carrot","🥕","Carrot"]];
-let data=null, report=""; const $=id=>document.getElementById(id);
-const MARKET_LABELS={"SMY Bhuntar":"Bhuntar","PMY Kullu":"Kullu","SMY Khegsu":"Khegsu","Kullu":"Kullu Mandi","Takoli":"Takoli"};
-const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
-const fmt=n=>Number.isFinite(n)?n.toFixed(1):"-";
-const priceSummary=r=>{if(!r)return null;const min=Number(r.min_price_kg),modal=Number(r.modal_price_kg),max=Number(r.max_price_kg);if(![min,modal,max].some(Number.isFinite))return null;return `Min ${fmt(min)} | Modal ${fmt(modal)} | Max ${fmt(max)}`};
-function buildReport(){const mains=data.main_markets||[], comps=data.comparison_markets||[];const available=ITEMS.filter(([key])=>Object.values(data.prices[key]||{}).some(Boolean));const marketSummary=(key,market)=>priceSummary(data.prices[key]?.[market]);const label=market=>MARKET_LABELS[market]||market;let t=`📊 *Mandi Prices (₹/kg) — Kullu district*\n${data.display_date}\nMin | Modal | Max\n\n`;const priority=[];for(const [key,name,emoji] of available){for(const market of ["SMY Bhuntar","Bandrol","Takoli","Banjar","Sundernagar","Ner Chowk","Delhi","Nashik","Jammu","Jaipur"]){const summary=marketSummary(key,market);if(summary)priority.push([name,emoji,label(market),summary])}}if(priority.length){t+="⭐ *Priority: Top Ten Markets*\n";for(const [name,emoji,market,summary] of priority)t+=`${emoji} ${name} — ${market}: ${summary}\n`;t+="\n"}for(const [key,name,emoji] of available){const rows=mains.map(m=>[label(m.display),marketSummary(key,m.display)]).filter(([,summary])=>summary);if(!rows.length)continue;t+=`${emoji} *${name}*\n`;for(const [market,summary] of rows)t+=`   ${market}: ${summary}\n`;t+="\n"}let comparisonText="",comparisonCount=0;for(const [key,name,emoji] of available){const rows=comps.map(m=>[label(m.display),marketSummary(key,m.display)]).filter(([,summary])=>summary);if(!rows.length)continue;comparisonCount++;comparisonText+=`${emoji} *${name}*\n`;for(const [market,summary] of rows)comparisonText+=`   ${market}: ${summary}\n`;comparisonText+="\n"}if(comparisonCount)t+="🌍 *Other Market Comparison*\n\n"+comparisonText;return t+"💰 Prices are per kg (converted from ₹/quintal)\n📌 Source: AGMARKNET, Govt of India"}
-function render(){if(!data)return;report=buildReport();$("output").value=report;$("copyBtn").disabled=false;const current=data.date===today();$("status").textContent=data.status==="error"?"🔴 Data update failed":current?"🟢 Updated today":"🟡 Data not updated yet";$("lastUpdated").textContent=`${current?"":"⚠️ Showing last successfully updated data: "}${data.display_date} ${new Date(data.updated_at).toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit"})} IST`;$("debug").textContent=JSON.stringify({records:data.verification,unmatched_api_markets:data.unmatched_api_markets,unmatched_api_commodities:data.unmatched_api_commodities},null,2)}
-async function load(){$("updateBtn").disabled=true;$("status").textContent="⏳ Updating…";try{const r=await fetch(`${DATA_URL}?t=${Date.now()}`);if(!r.ok)throw Error();data=await r.json();render()}catch{$("status").textContent="🔴 No price data published yet";$("lastUpdated").textContent="⚠️ Government data update failed. Run the update workflow and try again."}finally{$("updateBtn").disabled=false}}
-async function copy(){try{if(navigator.clipboard)await navigator.clipboard.writeText(report);else{$("output").select();document.execCommand("copy")}$("copyBtn").textContent="✅ Copied!";setTimeout(()=>$("copyBtn").textContent="📋 Copy WhatsApp Report",2000)}catch{$("status").textContent="⚠️ Copy failed — select the report and copy it manually."}}
-$("updateBtn").addEventListener("click",load);$("copyBtn").addEventListener("click",copy);load();
-
-
-  // ----- Buttons -----
-  const pdfBtn = document.createElement('button');
-  pdfBtn.id = 'pdfBtn';
-  pdfBtn.className = 'primary';
-  pdfBtn.style.marginTop = '10px';
-  pdfBtn.textContent = '📄 Download PDF Report';
-  document.body.appendChild(pdfBtn);
-
-  const imgBtn = document.createElement('button');
-  imgBtn.id = 'imgBtn';
-  imgBtn.className = 'copy';
-  imgBtn.style.marginTop = '5px';
-  imgBtn.textContent = '📸 Screenshot';
-  document.body.appendChild(imgBtn);
-
-  // PDF handler
-  pdfBtn.addEventListener('click', () => {
-    const win = window.open('', '_blank');
-    win.document.write('<html><head><style>body{font-family:system-ui,sans-serif;margin:20px;}h1{color:#176b3a;}</style></head><body><h1>Kullu Mandi Prices – Top Ten Markets</h1>'+$('output').value+'<div class="note">Generated '+new Date().toLocaleString()+' IST</div></body></html>');
-    win.document.close();
-    win.print();
-  });
-
-  // Screenshot handler
-  imgBtn.addEventListener('click', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = $('output').scrollWidth;
-    canvas.height = $('output').scrollHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.font = '13px ui-monospace,SFMono-Regular,Menlo,monospace';
-    ctx.fillStyle = '#17251c';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = '#c6c8c8';
-    ctx.fillText($('output').value, 0, 20);
-    const link = document.createElement('a');
-    link.download = 'kullu-mandi-'+new Date().toISOString().slice(0,10)+'.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  });
+const ITEMS=[{key:"apple",name:"Apple",emoji:"🍎"},{key:"pear",name:"Pear",emoji:"🍐"},{key:"plum",name:"Plum",emoji:"🟣"},{key:"peach",name:"Peach",emoji:"🍑"},{key:"tomato",name:"Tomato",emoji:"🍅"},{key:"cabbage",name:"Cabbage",emoji:"🥬"},{key:"cauliflower",name:"Cauliflower",emoji:"🥦"}];
+const MAIN=["SMY Bhuntar","PMY Kullu","SMY Khegsu","Kullu"], OTHER=["Bandrol","Takoli","Banjar","Sundernagar","Ner Chowk","Delhi","Nashik","Jammu","Jaipur"];
+const SHORT={"SMY Bhuntar":"SMY Bh.","PMY Kullu":"PMY Ku.","SMY Khegsu":"SMY Kh.","Kullu":"Kullu"};
+let data=null,report="",posterBlob=null;
+const $=id=>document.getElementById(id);
+const fmt=n=>Number.isFinite(Number(n))?Number(n).toFixed(1):"-";
+const record=(key,market)=>data?.prices?.[key]?.[market]||null;
+function modal(key,m){const r=record(key,m);return r&&Number.isFinite(Number(r.modal_price_kg))?Number(r.modal_price_kg):null}
+function cell(key,m){const r=record(key,m),v=modal(key,m);if(v===null)return '<span class="missing">-</span>';return `<span class="modal-price">₹${fmt(v)}</span><span class="range">${fmt(r.min_price_kg)}–${fmt(r.max_price_kg)}</span>`}
+function render(){if(!data)return;const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());$("status").textContent=data.is_today?"🟢 Latest data available":"🟡 Latest available data shown";$("lastUpdated").textContent=`${data.warning||""} ${data.display_date} · updated ${new Date(data.updated_at).toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})}`;
+$("head").innerHTML='<tr><th>Item</th>'+MAIN.map(m=>`<th>${SHORT[m]||m}</th>`).join('')+'</tr>';
+$("body").innerHTML=ITEMS.map(i=>`<tr><td class="item">${i.emoji} ${i.name}</td>${MAIN.map(m=>`<td>${cell(i.key,m)}</td>`).join('')}</tr>`).join('');
+$("comparisonBody").innerHTML=OTHER.map(m=>`<div class="comparison-row"><div class="comparison-title">${m}</div><div class="comparison-values">${ITEMS.map(i=>`<span>${i.emoji} ${fmt(modal(i.key,m))}</span>`).join('')}</div></div>`).join('');report=makeReport();$("report").value=report}
+function makeReport(){let t="📊 *Mandi Prices (₹/kg) — Kullu district*\n"+data.display_date+"\n\nItem       SMY Bh. PMY Ku. SMY Kh. Kullu\n------------------------------------------\n";for(const i of ITEMS){const label=(i.emoji+' '+i.name).padEnd(13,' ');t+=label+MAIN.map(m=>{const v=modal(i.key,m);return(v===null?'-':fmt(v)).padStart(8,' ')}).join('')+"\n"}t+="\n🌍 *Other Market Comparison*\n";for(const i of ITEMS){t+=`\n${i.emoji} *${i.name}*\n`;for(const m of OTHER)t+=`   ${m}: ${fmt(modal(i.key,m))}\n`}return t+"\n💰 Prices are per kg (converted from ₹/quintal)\n📌 Source: AGMARKNET, Govt of India"}
+async function load(path='data/prices.json'){try{$("updateBtn").disabled=true;$('status').textContent='⏳ Loading…';const r=await fetch(`${path}?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw Error(r.status);data=await r.json();render()}catch(e){$('status').textContent='🔴 Could not load price data';$('lastUpdated').textContent='Run the GitHub update workflow, then tap Update Prices.'}finally{$("updateBtn").disabled=false}}
+async function dates(){try{const r=await fetch(`data/dates.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)return;const list=await r.json();for(const d of list){const o=document.createElement('option');o.value=`data/dates/${d}.json`;o.textContent=d;$('dateSelect').append(o)}}catch{} }
+async function copy(){try{await navigator.clipboard.writeText(report);$('copyBtn').textContent='✅ Copied!';setTimeout(()=>$('copyBtn').textContent='📋 Copy WhatsApp',1800)}catch{$('report').focus();$('report').select();document.execCommand('copy')}}
+function drawPoster(){const c=$('posterCanvas'),x=c.getContext('2d'),W=c.width,H=c.height;x.fillStyle='#f7fbf5';x.fillRect(0,0,W,H);x.fillStyle='#176b3a';x.fillRect(0,0,W,180);x.fillStyle='#fff';x.textAlign='center';x.font='bold 52px system-ui';x.fillText('🌾 KULLU MANDI RATES',W/2,75);x.font='28px system-ui';x.fillText(data.display_date,W/2,125);x.textAlign='left';const left=32,top=230,row=112; x.fillStyle='#31553c';x.font='bold 22px system-ui';x.fillText('Item',left,top);MAIN.forEach((m,i)=>x.fillText(SHORT[m],300+i*185,top));ITEMS.forEach((it,ri)=>{const y=top+75+ri*row;x.strokeStyle='#d7e4d8';x.beginPath();x.moveTo(20,y+30);x.lineTo(W-20,y+30);x.stroke();x.fillStyle='#18321f';x.font='bold 24px system-ui';x.fillText(`${it.emoji} ${it.name}`,left,y);MAIN.forEach((m,mi)=>{x.fillStyle='#176b3a';x.font='bold 26px system-ui';x.fillText(fmt(modal(it.key,m)),300+mi*185,y);const r=record(it.key,m);if(r){x.fillStyle='#738178';x.font='16px system-ui';x.fillText(`${fmt(r.min_price_kg)}–${fmt(r.max_price_kg)}`,300+mi*185,y+25)}})});x.fillStyle='#52635a';x.textAlign='center';x.font='20px system-ui';x.fillText('💰 Price in ₹/kg  ·  📌 AGMARKNET / Govt. of India',W/2,H-35)}
+function poster(){drawPoster();$('posterModal').classList.add('open');$('posterModal').setAttribute('aria-hidden','false')}
+function canvasBlob(){return new Promise(resolve=>$('posterCanvas').toBlob(resolve,'image/png'))}
+async function share(){if(!posterBlob){drawPoster();posterBlob=await canvasBlob()}const file=new File([posterBlob],`kullu-mandi-${data.date}.png`,{type:'image/png'});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){try{await navigator.share({title:'Kullu Mandi Rates',files:[file]});return}catch(e){if(e.name==='AbortError')return}}const a=document.createElement('a');a.href=URL.createObjectURL(posterBlob);a.download=file.name;a.click();URL.revokeObjectURL(a.href)}
+$('updateBtn').onclick=()=>load();$('dateSelect').onchange=e=>load(e.target.value);$('copyBtn').onclick=copy;$('posterBtn').onclick=()=>{posterBlob=null;poster()};$('shareBtn').onclick=share;$('downloadBtn').onclick=async()=>{if(!posterBlob){drawPoster();posterBlob=await canvasBlob()}const a=document.createElement('a');a.href=URL.createObjectURL(posterBlob);a.download=`kullu-mandi-${data.date}.png`;a.click();URL.revokeObjectURL(a.href)};$('sharePosterBtn').onclick=share;$('closePoster').onclick=()=>$('posterModal').classList.remove('open');$('posterModal').onclick=e=>{if(e.target===$('posterModal'))$('posterModal').classList.remove('open')};dates();load();
